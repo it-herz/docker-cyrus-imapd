@@ -10,7 +10,7 @@ RUN cd /opt && apt update -y && apt install -y wget autoconf libtool pkg-config 
     make && make install && useradd -g mail cyrus && mkdir -p /var/imap/socket && chmod 777 /var/imap/socket && mkdir -p /var/run/cyrus/proc && chmod 777 -R /var/run/cyrus/proc && \
     mkdir -p /var/lib/cyrus && chown cyrus -R /var/lib/cyrus && mkdir -p /var/imap/db && chmod 777 -R /var/imap/db && mkdir -p /var/mail && chown cyrus -R /var/mail && \
     mkdir -p /var/spool/cyrus/news && mkdir -p /var/spool/news && chown cyrus -R /var/spool/cyrus/news && chown cyrus -R /var/spool/news && mkdir -p /var/spool/sieve && chown cyrus -R /var/spool/sieve && \
-    cp /opt/cyrus*/master/conf/normal.conf /etc/cyrus.conf && /opt/cyrus*/tools/mkimap && ldconfig
+    cp /opt/cyrus*/master/conf/normal.conf /etc/cyrus.conf && /opt/cyrus*/tools/mkimap && ldconfig && usermod -a -G mail,sasl cyrus
 
 ADD permissions.sh /opt/permissions.sh
 
