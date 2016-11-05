@@ -14,7 +14,7 @@ RUN cd /opt && apt update -y && apt install -y wget autoconf libtool pkg-config 
 
 ADD imapd.sh /opt/imapd.sh
 
-RUN chmod +x /opt/permissions.sh && apt install -y uuid-dev libgcrypt-dev libestr-dev flex dh-autoreconf bison python-docutils libxml2-dev git python-setuptools re2c && \
+RUN chmod +x /opt/imapd.sh && apt install -y uuid-dev libgcrypt-dev libestr-dev flex dh-autoreconf bison python-docutils libxml2-dev git python-setuptools re2c && \
     cd /opt && git clone https://github.com/rsyslog/libfastjson && cd libfastjson && autoreconf -v --install && ./configure && make && make install && \
     git clone https://github.com/rsyslog/liblogging && cd liblogging && autoreconf -v --install && ./configure --disable-man-pages && make && make install && \
     git clone https://github.com/rsyslog/rsyslog && cd rsyslog && ./autogen.sh --enable-omstdout && make && make install && ldconfig && \
