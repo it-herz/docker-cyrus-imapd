@@ -14,7 +14,5 @@ RUN cd /opt && apt update -y && apt install -y wget autoconf libtool pkg-config 
 
 EXPOSE 110 143 993 995 4190
 
-VOLUME /var/run/cyrus/socket
-
-ENTRYPOINT /usr/sbin/master
+CMD /usr/sbin/master
                                                                                    
