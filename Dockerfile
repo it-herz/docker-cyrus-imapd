@@ -12,7 +12,15 @@ RUN cd /opt && apt update -y && apt install -y wget autoconf libtool pkg-config 
     mkdir -p /var/spool/cyrus/news && mkdir -p /var/spool/news && chown cyrus -R /var/spool/cyrus/news && chown cyrus -R /var/spool/news && mkdir -p /var/spool/sieve && chown cyrus -R /var/spool/sieve && \
     cp /opt/cyrus*/master/conf/normal.conf /etc/cyrus.conf && /opt/cyrus*/tools/mkimap && ldconfig
 
+RUN apt install -y uuid-dev libgcrypt-dev libestr-dev flex dh-autoreconf bison python-docutils libxml2-dev wget re2c && \
+    cd /opt && git clone https://github.com/rsyslog/libfastjson && cd libfastjson && autoreconf -v --install && ./configure && make && make install && \
+    git clone https://github.com/rsyslog/liblogging && cd liblogging && autoreconf -v --install && ./configure --disable-man-pages && make && make install && \
+    git clone https://github.com/rsyslog/rsyslog && cd rsyslog && ./autogen.sh --enable-omstdout && make && make install && ldconfig && \
+    mkdir /var/log/supervisor/ && /usr/bin/easy_install supervisor && /usr/bin/easy_install supervisor-stdout
+
 EXPOSE 110 143 993 995 4190
 
-CMD /usr/sbin/master
-                                                                                   
+ADD supervisord.conf /etc/supervisord.conf
+ADD rsyslog.conf /etc/rsyslog.conf
+
+CMD ["supervisord","-n","-c","/etc/supervisord.conf"]                                                                                   
